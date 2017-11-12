@@ -5,9 +5,9 @@ This app depends on https://github.com/cloudfoundry/cf-java-client[CF-Java-Clien
 == Demonstration
 * Set these environment variables:
 
-FIREHOSE_HOST
-FIREHOSE_USER
-FIREHOSE_PASSWORD
+FIREHOSE_HOST +
+FIREHOSE_USER +
+FIREHOSE_PASSWORD +
 
 * An app must be pushed to CF and bound to a metrics-forwarder service and publish metrics to the metrics-forwarder.  Spring Boot Apps with Boot Actuators enabled andusing the latest Java Build Pack will do this by default.  You can enhance those metrics using dropwizard metrics https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-dropwizard-metrics
 
