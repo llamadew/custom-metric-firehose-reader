@@ -66,11 +66,8 @@ curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}?a
 curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
 ----
 
-
 * To View API docs visit:
- 
- [source]
- ----
- http://localhost:8080/swagger-ui.html
- ----
-
+[source]
+----
+http://localhost:8080/swagger-ui.html
+----
