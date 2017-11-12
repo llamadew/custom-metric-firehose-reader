@@ -1,0 +1,16 @@
+cf:
+  host: ${FIREHOSE_HOST}
+  user: ${FIREHOSE_USER}
+  password: ${FIREHOSE_PASSWORD}
+  skipSslValidation: true
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  profiles:
+    active: ${ACTIVE_SPRING_PROFILE}

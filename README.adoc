@@ -1,0 +1,73 @@
+This is a simple Spring Boot based app to demonstrate using https://github.com/cloudfoundry/cf-java-client[CF-Java-Client] to listen to Cloudfoundry Firehose events
+
+
+== Demonstration
+* Set these environment variables:
+
+FIREHOSE_HOST
+FIREHOSE_USER
+FIREHOSE_PASSWORD
+
+* Start the application
+[source]
+----
+./gradlew bootRun
+----
+
+* If everything is configured cleanly, you should can start collecting metric by requesting:
+[source]
+----
+curl -X POST "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
+----
+
+After appoximately 30 seconds you can see aggregated metrics by hitting the following metrics endpoints:
+
+[source]
+----
+curl -X POST "http://localhost:8080/apps/{Application GUID}/metrics/{Metric Name}"
+----
+
+[source]
+----
+ curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}"
+----
+
+
+You can append a query param to any of the metrics enpoints to get only the specific aggregation you are interested in:
+
+Aggregation options are:
+
+.Table Title
+|===
+|Aggregation Name
+
+|average
+
+|min
+
+|max
+
+|sum
+|===
+
+For example:
+
+[source]
+----
+curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}?aggregation=average"
+----
+
+* To Stop monitoring for a specific app metric:
+[source]
+----
+curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
+----
+
+
+* To View API docs visit:
+ 
+ [source]
+ ----
+ http://localhost:8080/swagger-ui.html
+ ----
+
