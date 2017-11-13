@@ -33,7 +33,7 @@ curl "http://localhost:8080/apps/{Application GUID}/metric_cache/names"
 * To stop caching metric names for a specific app (this clears the metric name cache):
 [source]
 ----
-curl -X DELTE "http://localhost:8080/apps/{Application GUID}/metric_cache"
+curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_cache"
 ----
 
 == Collecting and Aggregating Metrics
