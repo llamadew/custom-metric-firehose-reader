@@ -1,12 +1,15 @@
-This is a simple Spring Boot based app to demonstrate using https://github.com/cloudfoundry/cf-java-client[CF-Java-Client] to listen to Cloudfoundry Firehose events
+This is a simple Spring Boot based app to collect and aggregate custom app metrics and present the aggregations via a RESTful API. 
 
+This app depends on https://github.com/cloudfoundry/cf-java-client[CF-Java-Client] to listen to Cloudfoundry Firehose events
 
 == Demonstration
 * Set these environment variables:
 
-FIREHOSE_HOST
-FIREHOSE_USER
-FIREHOSE_PASSWORD
+FIREHOSE_HOST +
+FIREHOSE_USER +
+FIREHOSE_PASSWORD +
+
+* An app must be pushed to CF and bound to a metrics-forwarder service and publish metrics to the metrics-forwarder.  Spring Boot Apps with Boot Actuators enabled andusing the latest Java Build Pack will do this by default.  You can enhance those metrics using dropwizard metrics https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-dropwizard-metrics
 
 * Start the application
 [source]
@@ -63,11 +66,17 @@ curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}?a
 curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
 ----
 
-
 * To View API docs visit:
+<<<<<<< HEAD
 
  [source]
  ----
  http://localhost:8080/swagger-ui.html
  ----
 
+=======
+[source]
+----
+http://localhost:8080/swagger-ui.html
+----
+>>>>>>> 3b0a5d550b5e886df0551a9b9d1a0bbb869f134a
