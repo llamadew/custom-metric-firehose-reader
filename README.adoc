@@ -65,7 +65,7 @@ curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_settings/{M
 
 
 * To View API docs visit:
- 
+
  [source]
  ----
  http://localhost:8080/swagger-ui.html

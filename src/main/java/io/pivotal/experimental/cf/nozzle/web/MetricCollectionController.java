@@ -1,5 +1,6 @@
 package io.pivotal.experimental.cf.nozzle.web;
 
+import io.pivotal.experimental.cf.nozzle.collector.EnvelopeCollector;
 import io.pivotal.experimental.cf.nozzle.domain.AppMetricSetting;
 import io.pivotal.experimental.cf.nozzle.repository.AppMetricSettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import java.util.stream.StreamSupport;
  */
 
 @RestController
-public class MetricSettingsController {
+public class MetricCollectionController {
 
     @Autowired
     AppMetricSettingRepository repository;
 
-    @RequestMapping(value = "/apps/{appGuid}/metric_settings/{metricName:.+}", method = RequestMethod.POST)
+    @Autowired
+    EnvelopeCollector envelopeCollector;
+
+    @RequestMapping(value = "/apps/{appGuid}/metric_collection/{metricName:.+}", method = RequestMethod.POST)
     public AppMetricSetting createAppMetricSettings(@PathVariable (value="appGuid") String appGuid, @PathVariable(value="metricName") String metricName) {
 
         AppMetricSetting setting = new AppMetricSetting(appGuid, metricName);
@@ -30,16 +34,18 @@ public class MetricSettingsController {
         return setting;
     }
 
-    @RequestMapping(value = "/apps/{appGuid}/metric_settings/{metricName:.+}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/apps/{appGuid}/metric_collection/{metricName:.+}", method = RequestMethod.DELETE)
     public AppMetricSetting deleteAppMetricSettings(@PathVariable (value="appGuid") String appGuid, @PathVariable(value="metricName") String metricName) {
 
         AppMetricSetting setting = new AppMetricSetting(appGuid, metricName);
         repository.delete(setting);
 
+        envelopeCollector.endAppMetrics(appGuid,metricName);
+
         return setting;
     }
 
-    @RequestMapping(value = "/apps/{appGuid}/metric_settings", method = RequestMethod.GET)
+    @RequestMapping(value = "/apps/{appGuid}/metric_collection", method = RequestMethod.GET)
     public List<AppMetricSetting> getAppMetricSettings(@PathVariable (value="appGuid", required = true) String appGuid, @RequestParam(value="metricName", required = false) String metricName) {
         List<AppMetricSetting> settings = new ArrayList<AppMetricSetting>();
 

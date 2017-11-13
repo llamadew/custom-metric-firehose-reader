@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.Entity;
 import java.util.Iterator;
 
 
@@ -25,30 +26,7 @@ public class MetricRepositoryTest {
 
     @Test
     public void save() throws Exception {
-        repository.save(new Metric("test.metric.name", 1d, "test.metric.unit"));
-        assert(repository.findByName("test.metric.name").size()==1);
-        assert(((Iterable <Metric>) repository.findAll()).iterator().hasNext());
+        Metric e = repository.save(new Metric(System.currentTimeMillis(),"appGuid1", "test.metric.unit",  1d, "average"));
+        assert (e!=null);
     }
-
-    @Test
-    public void findByName() throws Exception {
-        repository.save(new Metric("test.metric.name", 1d, "test.metric.unit"));
-        assert(repository.findByName("test.metric.name").size()==1);
-        assert(((Iterable <Metric>) repository.findAll()).iterator().hasNext());
-    }
-
-    @Test
-    public void findAll() throws Exception {
-        repository.save(new Metric("test.metric.name", 1d, "test.metric.unit"));
-        repository.save(new Metric("test.metric.name", 2d, "test.metric.unit"));
-        Iterator<Metric> metrics = repository.findAll().iterator();
-
-        assert(metrics.hasNext());
-        metrics.next();
-        assert(metrics.hasNext());
-    }
-
-
-
-
 }

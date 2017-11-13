@@ -2,8 +2,10 @@ package io.pivotal.experimental.cf.nozzle.worker;
 
 import io.pivotal.experimental.cf.nozzle.collector.EnvelopeBucket;
 import io.pivotal.experimental.cf.nozzle.collector.EnvelopeCollector;
+import io.pivotal.experimental.cf.nozzle.domain.AppMetricCacheSetting;
 import io.pivotal.experimental.cf.nozzle.domain.AppMetricSetting;
 import io.pivotal.experimental.cf.nozzle.domain.Metric;
+import io.pivotal.experimental.cf.nozzle.repository.AppMetricCacheSettingRepository;
 import io.pivotal.experimental.cf.nozzle.repository.AppMetricSettingRepository;
 import io.pivotal.experimental.cf.nozzle.repository.MetricRepository;
 import org.cloudfoundry.doppler.Envelope;
@@ -37,6 +39,9 @@ public class MetricMonitorWorker {
     AppMetricSettingRepository appMetricSettingRepository;
 
     @Autowired
+    AppMetricCacheSettingRepository appMetricCacheSettingRepository;
+
+    @Autowired
     EnvelopeCollector envelopeCollector;
 
 
@@ -51,6 +56,16 @@ public class MetricMonitorWorker {
 
         appMetricSettingIterator.forEachRemaining(o -> envelopeCollector.collectAppMetrics(o.getAppGuid(), o.getMetricName()));
     }
+
+    @Scheduled(fixedDelay = 5000)
+    public void cacheAppMetricNames() {
+        LOGGER.debug(
+                "Caching metric names for new apps- " + System.currentTimeMillis() / 1000);
+        Iterator<AppMetricCacheSetting> appMetricCacheSettingIterator = appMetricCacheSettingRepository.findAll().iterator();
+
+        appMetricCacheSettingIterator.forEachRemaining(o -> envelopeCollector.collectAppMetricNames(o.getAppGuid()));
+    }
+
 
     @Scheduled(fixedDelay = 30000)
     public void aggregateAppMetric() {
@@ -71,6 +86,8 @@ public class MetricMonitorWorker {
 
                 ArrayList<Metric> metrics = new ArrayList<Metric>();
                 Long timestamp = System.currentTimeMillis();
+
+                metrics.add(new Metric(timestamp, o.getAppGuid(), o.getMetricName(), envelopes.getFirst().getValueMetric().value(), "last"));
                 metrics.add(new Metric(timestamp, o.getAppGuid(), o.getMetricName(), stats.getAverage(), "average"));
                 metrics.add(new Metric(timestamp, o.getAppGuid(), o.getMetricName(), stats.getMax(), "max"));
                 metrics.add(new Metric(timestamp, o.getAppGuid(), o.getMetricName(), stats.getMin(), "min"));
