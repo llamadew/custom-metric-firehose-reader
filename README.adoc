@@ -2,7 +2,7 @@ This is a simple Spring Boot based app to collect and aggregate custom app metri
 
 This app depends on https://github.com/cloudfoundry/cf-java-client[CF-Java-Client] to listen to Cloudfoundry Firehose events
 
-== Demonstration
+== Configuration and Deployment
 * Set these environment variables:
 
 FIREHOSE_HOST +
@@ -17,10 +17,30 @@ FIREHOSE_PASSWORD +
 ./gradlew bootRun
 ----
 
-* If everything is configured cleanly, you should can start collecting metric by requesting:
+== Discover Custom Metrics
+* To start caching metric names for a specific app :
 [source]
 ----
-curl -X POST "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
+curl -X POST "http://localhost:8080/apps/{Application GUID}/metric_cache"
+----
+
+* To view cached metric names for a specific app :
+[source]
+----
+curl "http://localhost:8080/apps/{Application GUID}/metric_cache/names"
+----
+
+* To stop caching metric names for a specific app (this clears the metric name cache):
+[source]
+----
+curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_cache"
+----
+
+== Collecting and Aggregating Metrics
+* If everything is configured, you should can start collecting metric by requesting:
+[source]
+----
+curl -X POST "http://localhost:8080/apps/{Application GUID}/metric_collection/{Metric Name}"
 ----
 
 After appoximately 30 seconds you can see aggregated metrics by hitting the following metrics endpoints:
@@ -34,7 +54,6 @@ curl -X POST "http://localhost:8080/apps/{Application GUID}/metrics/{Metric Name
 ----
  curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}"
 ----
-
 
 You can append a query param to any of the metrics enpoints to get only the specific aggregation you are interested in:
 
@@ -66,17 +85,10 @@ curl  "http://localhost:8080/apps/{Application GUID}/last_metric/{Metric Name}?a
 curl -X DELETE "http://localhost:8080/apps/{Application GUID}/metric_settings/{Metric Name}"
 ----
 
+
+== Docs
 * To View API docs visit:
-<<<<<<< HEAD
-
- [source]
- ----
- http://localhost:8080/swagger-ui.html
- ----
-
-=======
 [source]
 ----
 http://localhost:8080/swagger-ui.html
 ----
->>>>>>> 3b0a5d550b5e886df0551a9b9d1a0bbb869f134a
