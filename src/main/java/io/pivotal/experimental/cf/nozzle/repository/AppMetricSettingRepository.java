@@ -13,7 +13,9 @@ import java.util.List;
 public interface AppMetricSettingRepository extends CrudRepository<AppMetricSetting, Long> {
 
     List<AppMetricSetting> findByMetricName(String metricName);
+
     List<AppMetricSetting> findByAppGuid(String appGuid);
+
     List<AppMetricSetting> findByAppGuidAndMetricName(String appGuid, String metricName);
 
 }

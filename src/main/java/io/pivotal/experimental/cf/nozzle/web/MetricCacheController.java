@@ -2,14 +2,14 @@ package io.pivotal.experimental.cf.nozzle.web;
 
 import io.pivotal.experimental.cf.nozzle.collector.EnvelopeCollector;
 import io.pivotal.experimental.cf.nozzle.domain.AppMetricCacheSetting;
-import io.pivotal.experimental.cf.nozzle.domain.AppMetricSetting;
 import io.pivotal.experimental.cf.nozzle.repository.AppMetricCacheSettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Set;
 
 /**
  * Created by slhommedieu on 11/10/17.
@@ -25,7 +25,7 @@ public class MetricCacheController {
     EnvelopeCollector envelopeCollector;
 
     @RequestMapping(value = "/apps/{appGuid}/metric_cache", method = RequestMethod.POST)
-    public AppMetricCacheSetting createAppMetricSettings(@PathVariable (value="appGuid") String appGuid) {
+    public AppMetricCacheSetting createAppMetricSettings(@PathVariable(value = "appGuid") String appGuid) {
 
         AppMetricCacheSetting setting = new AppMetricCacheSetting(appGuid);
         repository.save(setting);
@@ -34,7 +34,7 @@ public class MetricCacheController {
     }
 
     @RequestMapping(value = "/apps/{appGuid}/metric_cache", method = RequestMethod.DELETE)
-    public AppMetricCacheSetting deleteAppMetricCacheSettings(@PathVariable (value="appGuid") String appGuid) {
+    public AppMetricCacheSetting deleteAppMetricCacheSettings(@PathVariable(value = "appGuid") String appGuid) {
 
         AppMetricCacheSetting setting = new AppMetricCacheSetting(appGuid);
         repository.delete(setting);
@@ -44,16 +44,15 @@ public class MetricCacheController {
         return setting;
     }
 
-
     @RequestMapping(value = "/apps/{appGuid}/metric_cache/names", method = RequestMethod.GET)
-    public Set<String> getAppMetricCache(@PathVariable (value="appGuid", required = true) String appGuid) {
+    public Set<String> getAppMetricCache(@PathVariable(value = "appGuid", required = true) String appGuid) {
 
         Set<String> names = envelopeCollector.getAppMetricNames(appGuid);
         return names;
     }
 
-        @RequestMapping(value = "/apps/{appGuid}/metric_cache", method = RequestMethod.GET)
-    public AppMetricCacheSetting getAppMetricCacheSettings(@PathVariable (value="appGuid", required = true) String appGuid) {
+    @RequestMapping(value = "/apps/{appGuid}/metric_cache", method = RequestMethod.GET)
+    public AppMetricCacheSetting getAppMetricCacheSettings(@PathVariable(value = "appGuid", required = true) String appGuid) {
         AppMetricCacheSetting settings = repository.findFirstByAppGuid(appGuid);
 
         return settings;

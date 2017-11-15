@@ -14,14 +14,14 @@ public class EnvelopeBucket {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnvelopeBucket.class);
 
 
-    ArrayDeque<Envelope> envelopes ;
+    ArrayDeque<Envelope> envelopes;
 
     public EnvelopeBucket() {
 
     }
 
-    public void acceptEnvelope(Envelope envelope){
-        if(envelopes == null){
+    public void acceptEnvelope(Envelope envelope) {
+        if (envelopes == null) {
             envelopes = new ArrayDeque<Envelope>();
         }
         envelopes.addFirst(envelope);

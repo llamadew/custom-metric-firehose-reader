@@ -1,7 +1,9 @@
 package io.pivotal.experimental.cf.nozzle.domain;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 /**
  * Created by slhommedieu on 11/9/17.
@@ -16,7 +18,8 @@ public class AppMetricSetting {
     private String metricName;
 
 
-    public AppMetricSetting(){}
+    public AppMetricSetting() {
+    }
 
     public AppMetricSetting(String appGuid, String metricName) {
         this.appGuid = appGuid;

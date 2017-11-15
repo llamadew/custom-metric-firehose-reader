@@ -12,7 +12,7 @@ import java.util.List;
  * Created by slhommedieu on 11/9/17.
  */
 @Repository
-public interface MetricRepository  extends CrudRepository<Metric, Long> {
+public interface MetricRepository extends CrudRepository<Metric, Long> {
 
     List<Metric> findByAppGuidAndMetricName(String appGuid, String metricName);
 

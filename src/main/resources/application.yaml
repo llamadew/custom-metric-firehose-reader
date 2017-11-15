@@ -10,7 +10,9 @@ logging:
 
 spring:
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: create
 
   profiles:
     active: ${ACTIVE_SPRING_PROFILE}
+

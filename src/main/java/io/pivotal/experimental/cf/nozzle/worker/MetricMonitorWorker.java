@@ -18,7 +18,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.transaction.Transactional;
-import java.sql.Time;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
@@ -75,12 +74,12 @@ public class MetricMonitorWorker {
 
         appMetricSettingIterator.forEachRemaining(o -> {
             EnvelopeBucket b = envelopeCollector.getAppMetrics(o.getAppGuid(), o.getMetricName());
-            if (b != null && b.getEnvelopes()!=null) {
-                    ArrayDeque<Envelope> envelopes = b.getEnvelopes().clone();
-                    //should probably be a rolling window.
-                    b.reset();
-                    DoubleSummaryStatistics stats = envelopes.stream().filter(e -> e!=null).mapToDouble((x) -> x.getValueMetric().value())
-                            .summaryStatistics();
+            if (b != null && b.getEnvelopes() != null) {
+                ArrayDeque<Envelope> envelopes = b.getEnvelopes().clone();
+                //should probably be a rolling window.
+                b.reset();
+                DoubleSummaryStatistics stats = envelopes.stream().filter(e -> e != null).mapToDouble((x) -> x.getValueMetric().value())
+                        .summaryStatistics();
 
                 LOGGER.debug(String.format("App: %s --- Metric: %s --- Average: %s", o.getAppGuid(), o.getMetricName(), stats.getAverage()));
 
@@ -104,7 +103,7 @@ public class MetricMonitorWorker {
         LOGGER.debug(
                 "Running Pruning @  " + System.currentTimeMillis() / 1000);
 
-        metricsRepository.deleteByTimestampBefore(System.currentTimeMillis()- 60*1000 );
+        metricsRepository.deleteByTimestampBefore(System.currentTimeMillis() - 60 * 1000);
     }
 
 

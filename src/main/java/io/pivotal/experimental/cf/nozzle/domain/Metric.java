@@ -1,15 +1,16 @@
 package io.pivotal.experimental.cf.nozzle.domain;
 
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by slhommedieu on 11/9/17.
  */
 @Entity
-public class Metric{
+public class Metric {
 
     @Id
     @GeneratedValue
@@ -21,7 +22,8 @@ public class Metric{
     private Double value;
     private String aggregation;
 
-    protected Metric(){}
+    protected Metric() {
+    }
 
     public Metric(Long timestamp, String appGuid, String metricName, Double value, String aggregation) {
         this.timestamp = timestamp;

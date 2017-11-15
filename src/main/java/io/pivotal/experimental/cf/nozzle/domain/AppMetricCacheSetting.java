@@ -3,7 +3,6 @@ package io.pivotal.experimental.cf.nozzle.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 
 /**
  * Created by slhommedieu on 11/9/17.
@@ -14,7 +13,8 @@ public class AppMetricCacheSetting {
     @Id
     private String appGuid;
 
-    public AppMetricCacheSetting(){}
+    public AppMetricCacheSetting() {
+    }
 
     public AppMetricCacheSetting(String appGuid) {
         this.appGuid = appGuid;
