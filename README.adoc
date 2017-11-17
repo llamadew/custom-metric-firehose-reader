@@ -3,11 +3,17 @@ This is a simple Spring Boot based app to collect and aggregate custom app metri
 This app depends on https://github.com/cloudfoundry/cf-java-client[CF-Java-Client] to listen to Cloudfoundry Firehose events
 
 == Configuration and Deployment
+
+
+
 * Set these environment variables:
 
+```
 FIREHOSE_HOST +
 FIREHOSE_USER +
 FIREHOSE_PASSWORD +
+```
+User and password must reference a cf user with the `doppler.firehose` scope in UAA.
 
 * An app must be pushed to CF and bound to a metrics-forwarder service and publish metrics to the metrics-forwarder.  Spring Boot Apps with Boot Actuators enabled andusing the latest Java Build Pack will do this by default.  You can enhance those metrics using dropwizard metrics https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html#production-ready-dropwizard-metrics
 
